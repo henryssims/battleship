@@ -31,6 +31,44 @@ const Gameboard = () => {
         }
     }
 
+    const randomizeShip = (length) => {
+        let orientationNum = Math.floor(Math.random() * 2);
+        let orientation;
+        if (orientationNum === 0) orientation = 'horizontal';
+        if (orientationNum === 1) orientation = 'vertical';
+
+        let x = Math.floor(Math.random() * (11 - length));
+        let y = Math.floor(Math.random() * (11 - length));
+
+        if (orientation === 'horizontal') {
+            let count = 0;
+            for (let i = 0; i < length; i++) {
+                if (board[y][x + i] === 0) {
+                    count++;
+                }
+            }
+            if (count === length) {
+                placeShip(length, orientation, x, y);    
+            } else {
+                randomizeShip(length);
+            }
+        }
+        
+        if (orientation === 'vertical') {
+            let count = 0;
+            for (let i = 0; i < length; i++) {
+                if (board[y + i][x] === 0) {
+                    count++;
+                }
+            }
+            if (count === length) {
+                placeShip(length, orientation, x, y);    
+            } else {
+                randomizeShip(length);
+            }
+        }
+    }
+
     const receiveAttack = (x, y) => {
         if (board[y][x] === 0) {
             board[y][x] = 1;
@@ -47,7 +85,7 @@ const Gameboard = () => {
         return ships.every(ship => ship.sunk);
     }
 
-    return { board, placeShip, receiveAttack, allShipsSunk };
+    return { board, placeShip, receiveAttack, allShipsSunk, randomizeShip };
 }
 
 export { Gameboard };

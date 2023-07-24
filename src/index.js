@@ -69,7 +69,6 @@ function setup() {
             }
         });
     });
-
 }
 
 function fillBoard(board) {

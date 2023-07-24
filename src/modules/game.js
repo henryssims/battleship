@@ -4,17 +4,17 @@ const Game = () => {
     const player = Player();
     const computer = Player();
 
-    player.gameboard.placeShip(2, 'horizontal', 2, 6);
-    player.gameboard.placeShip(3, 'horizontal', 2, 4);
-    player.gameboard.placeShip(3, 'horizontal', 3, 2);
-    player.gameboard.placeShip(4, 'vertical', 7, 3);
-    player.gameboard.placeShip(5, 'horizontal', 4, 9);
+    player.gameboard.randomizeShip(2);
+    player.gameboard.randomizeShip(3);
+    player.gameboard.randomizeShip(3);
+    player.gameboard.randomizeShip(4);
+    player.gameboard.randomizeShip(5);
 
-    computer.gameboard.placeShip(2, 'horizontal', 2, 6);
-    computer.gameboard.placeShip(3, 'horizontal', 2, 4);
-    computer.gameboard.placeShip(3, 'horizontal', 3, 2);
-    computer.gameboard.placeShip(4, 'vertical', 7, 3);
-    computer.gameboard.placeShip(5, 'horizontal', 4, 9);
+    computer.gameboard.randomizeShip(2);
+    computer.gameboard.randomizeShip(3);
+    computer.gameboard.randomizeShip(3);
+    computer.gameboard.randomizeShip(4);
+    computer.gameboard.randomizeShip(5);
 
     return { player, computer };
 }
