@@ -8,24 +8,57 @@ const Player = () => {
     }
 
     const takeComputerTurn = (otherGameboard) => {
-        const x = Math.floor(Math.random() * 10);
-        const y = Math.floor(Math.random() * 10);
-        if (otherGameboard.board[y][x] === 0 || otherGameboard.board[y][x][0] === 0) {
-            otherGameboard.receiveAttack(x, y);
-        } else {
-            takeComputerTurn(otherGameboard);
-        }
-        if (otherGameboard.allShipsSunk()) {
-            const endScreen = document.querySelector('#end-screen');
-            endScreen.style.display = 'flex';    
-            endScreen.textContent = 'You Lose!';
-            const resetBtn = document.createElement('button');
-            resetBtn.setAttribute('id', 'reset');
-            resetBtn.textContent = 'Play Again';
-            endScreen.appendChild(resetBtn);
-            document.querySelector('#player-board').style.opacity = 0.3;
-            document.querySelector('#computer-board').style.opacity = 0.3;
-        }
+        let checkedOne = false;
+        for (let i = 0; i < 10; i++) {
+            for (let j = 0; j < 10; j++) {
+                if (otherGameboard.board[i][j][0] === 1 && !checkedOne) {
+                    const x = j;
+                    const y = i;
+                    if (x - 1 >= 0 && x + 1 <= 9 && otherGameboard.board[y][x - 1][0] === 1 && (otherGameboard.board[y][x + 1][0] === 0 || otherGameboard.board[y][x + 1] === 0)) {
+                        otherGameboard.receiveAttack(x + 1, y);
+                        checkedOne = true;
+                    } else if (x - 1 >= 0 && x + 1 <= 9 && otherGameboard.board[y][x + 1][0] === 1 && (otherGameboard.board[y][x - 1][0] === 0 || otherGameboard.board[y][x - 1] === 0)) {
+                        otherGameboard.receiveAttack(x - 1, y);
+                        checkedOne = true;
+                    } else if (y - 1 >= 0 && y + 1 <= 9 && otherGameboard.board[y - 1][x][0] === 1 && (otherGameboard.board[y + 1][x][0] === 0 || otherGameboard.board[y + 1][x] === 0)) {
+                        otherGameboard.receiveAttack(x, y + 1);
+                        checkedOne = true;
+                    } else if (y - 1 >= 0 && y + 1 <= 9 && otherGameboard.board[y + 1][x][0] === 1 && (otherGameboard.board[y - 1][x][0] === 0 || otherGameboard.board[y - 1][x] === 0)) {
+                        otherGameboard.receiveAttack(x, y - 1);
+                        checkedOne = true;
+                    } else if (!(x - 1 >= 0 && x + 1 <= 9 && otherGameboard.board[y][x - 1][0] === 1 && otherGameboard.board[y][x + 1][0] === 1) &&
+                    !(y - 1 >= 0 && y + 1 <= 9 && otherGameboard.board[y - 1][x][0] === 1 && otherGameboard.board[y + 1][x][0] === 1) &&
+                    !((x + 1 > 9 || otherGameboard.board[y][x + 1] === 1) && otherGameboard.board[y][x - 1][0] === 1) &&
+                    !((x - 1 < 0 || otherGameboard.board[y][x - 1] === undefined || otherGameboard.board[y][x - 1] === 1) && otherGameboard.board[y][x + 1][0] === 1) &&
+                    !((y + 1 > 9 || otherGameboard.board[y + 1][x] === undefined || otherGameboard.board[y][x + 1] === 1) && otherGameboard.board[y - 1][x][0] === 1) &&
+                    !((y - 1 < 0 || otherGameboard.board[y - 1][x] === undefined || otherGameboard.board[y - 1][x] === 1) && otherGameboard.board[y + 1][x][0] === 1)) {
+                        if (x + 1 <= 9 && (otherGameboard.board[y][x + 1][0] === 0 || otherGameboard.board[y][x + 1] === 0)) {
+                            otherGameboard.receiveAttack(x + 1, y);
+                            checkedOne = true;
+                        } else if (x - 1 >= 0 && (otherGameboard.board[y][x - 1][0] === 0 || otherGameboard.board[y][x - 1] === 0)) {
+                            otherGameboard.receiveAttack(x - 1, y);
+                            checkedOne = true;
+                        } else if (y + 1 <= 9 && (otherGameboard.board[y + 1][x][0] === 0 || otherGameboard.board[y + 1][x] === 0)) {
+                            otherGameboard.receiveAttack(x, y + 1);
+                            checkedOne = true;
+                        } else if (y - 1 >= 0 && (otherGameboard.board[y - 1][x][0] === 0 || otherGameboard.board[y - 1][x] === 0)) {
+                            otherGameboard.receiveAttack(x, y - 1);
+                            checkedOne = true;
+                        }
+                    }
+                }
+            }
+        }        
+
+        if (!checkedOne) {
+            const x = Math.floor(Math.random() * 10);
+            const y = Math.floor(Math.random() * 10);
+            if (otherGameboard.board[y][x] === 0 || otherGameboard.board[y][x][0] === 0) {
+                otherGameboard.receiveAttack(x, y);
+            } else {
+                takeComputerTurn(otherGameboard);
+            }      
+        }     
     }
 
     return { gameboard, takePlayerTurn, takeComputerTurn };
