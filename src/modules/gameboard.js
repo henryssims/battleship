@@ -69,7 +69,7 @@ const Gameboard = () => {
         }
     }
 
-    const receiveAttack = (x, y) => {
+    const receiveAttack = (x, y, player) => {
         if (board[y][x] === 0) {
             board[y][x] = 1;
         } else if (board[y][x][0] === 0) {
@@ -85,7 +85,7 @@ const Gameboard = () => {
         return ships.every(ship => ship.sunk);
     }
 
-    return { board, placeShip, receiveAttack, allShipsSunk, randomizeShip };
+    return { board, ships, placeShip, receiveAttack, allShipsSunk, randomizeShip };
 }
 
 export { Gameboard };

@@ -28,10 +28,10 @@ const Player = () => {
                         checkedOne = true;
                     } else if (!(x - 1 >= 0 && x + 1 <= 9 && otherGameboard.board[y][x - 1][0] === 1 && otherGameboard.board[y][x + 1][0] === 1) &&
                     !(y - 1 >= 0 && y + 1 <= 9 && otherGameboard.board[y - 1][x][0] === 1 && otherGameboard.board[y + 1][x][0] === 1) &&
-                    !((x + 1 > 9 || otherGameboard.board[y][x + 1] === 1) && otherGameboard.board[y][x - 1][0] === 1) &&
-                    !((x - 1 < 0 || otherGameboard.board[y][x - 1] === undefined || otherGameboard.board[y][x - 1] === 1) && otherGameboard.board[y][x + 1][0] === 1) &&
-                    !((y + 1 > 9 || otherGameboard.board[y + 1][x] === undefined || otherGameboard.board[y][x + 1] === 1) && otherGameboard.board[y - 1][x][0] === 1) &&
-                    !((y - 1 < 0 || otherGameboard.board[y - 1][x] === undefined || otherGameboard.board[y - 1][x] === 1) && otherGameboard.board[y + 1][x][0] === 1)) {
+                    !((x + 1 > 9 || otherGameboard.board[y][x + 1] === 1) && (!(x - 1 < 0) && otherGameboard.board[y][x - 1][0] === 1)) &&
+                    !((x - 1 < 0 || otherGameboard.board[y][x - 1] === 1) && (!(x + 1 > 9) && otherGameboard.board[y][x + 1][0] === 1)) &&
+                    !((y + 1 > 9 || otherGameboard.board[y][x + 1] === 1) && (!(y - 1 < 0) && otherGameboard.board[y - 1][x][0] === 1)) &&
+                    !((y - 1 < 0 || otherGameboard.board[y - 1][x] === 1) && (!(y + 1 > 9) && otherGameboard.board[y + 1][x][0] === 1))) {
                         if (x + 1 <= 9 && (otherGameboard.board[y][x + 1][0] === 0 || otherGameboard.board[y][x + 1] === 0)) {
                             otherGameboard.receiveAttack(x + 1, y);
                             checkedOne = true;

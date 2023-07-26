@@ -2,8 +2,6 @@ import { Game } from './modules/game.js';
 
 const playerBoard = document.querySelector('#player-board');
 const computerBoard = document.querySelector('#computer-board');
-const playerSquares = document.querySelectorAll('#player-board > .square');
-const computerSquares = document.querySelectorAll('#computer-board > .square');
 const endScreen = document.querySelector('#end-screen');
 
 function setup() {
@@ -15,6 +13,10 @@ function setup() {
     fillBoard(computerBoard);  
     playerBoard.style.opacity = 0.6; 
     computerBoard.style.opacity = 1;
+    const ships = document.querySelectorAll('.ship-icon');
+    ships.forEach(ship => {
+        ship.style.backgroundColor = '#53a8b6';
+    });
     const game = Game();
 
     const playerSquares = document.querySelectorAll('#player-board > .square');
@@ -30,6 +32,15 @@ function setup() {
                 playerBoard.style.opacity = 1; 
                 computerBoard.style.opacity = 0.6; 
                 turn = 'computer';
+
+                for (let i = 0; i < 5; i++) {
+                    if (game.computer.gameboard.ships[i].sunk) {
+                        let ships = document.querySelectorAll(`#ships-right :nth-child(${i + 1}) > .ship-icon`);
+                        ships.forEach(ship => {
+                            ship.style.backgroundColor = 'lightgray';
+                        });
+                    }
+                }
                 
                 if (game.computer.gameboard.allShipsSunk()) {
                     gameOver = true;
@@ -50,7 +61,16 @@ function setup() {
                         renderPlayerSquares(playerSquares, game);
                         computerBoard.style.opacity = 1; 
                         playerBoard.style.opacity = 0.6; 
-                        turn = 'player';   
+                        turn = 'player'; 
+                        
+                        for (let i = 0; i < 5; i++) {
+                            if (game.player.gameboard.ships[i].sunk) {
+                                let ships = document.querySelectorAll(`#ships-left :nth-child(${i + 1}) > .ship-icon`);
+                                ships.forEach(ship => {
+                                    ship.style.backgroundColor = 'lightgray';
+                                });
+                            }
+                        }
                         
                         if (game.player.gameboard.allShipsSunk()) {
                             gameOver = true;
